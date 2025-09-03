@@ -14,7 +14,270 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      appointments: {
+        Row: {
+          appointment_type: string | null
+          conversation_id: string | null
+          counselor_id: string
+          created_at: string | null
+          id: string
+          is_emergency: boolean | null
+          meeting_url: string | null
+          notes: string | null
+          reason_for_visit: string | null
+          scheduled_end: string
+          scheduled_start: string
+          status: string | null
+          student_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          appointment_type?: string | null
+          conversation_id?: string | null
+          counselor_id: string
+          created_at?: string | null
+          id?: string
+          is_emergency?: boolean | null
+          meeting_url?: string | null
+          notes?: string | null
+          reason_for_visit?: string | null
+          scheduled_end: string
+          scheduled_start: string
+          status?: string | null
+          student_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          appointment_type?: string | null
+          conversation_id?: string | null
+          counselor_id?: string
+          created_at?: string | null
+          id?: string
+          is_emergency?: boolean | null
+          meeting_url?: string | null
+          notes?: string | null
+          reason_for_visit?: string | null
+          scheduled_end?: string
+          scheduled_start?: string
+          status?: string | null
+          student_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_conversations: {
+        Row: {
+          conversation_type: string | null
+          counselor_id: string
+          created_at: string | null
+          id: string
+          last_message_at: string | null
+          started_at: string | null
+          status: string | null
+          student_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          conversation_type?: string | null
+          counselor_id: string
+          created_at?: string | null
+          id?: string
+          last_message_at?: string | null
+          started_at?: string | null
+          status?: string | null
+          student_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          conversation_type?: string | null
+          counselor_id?: string
+          created_at?: string | null
+          id?: string
+          last_message_at?: string | null
+          started_at?: string | null
+          status?: string | null
+          student_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_conversations_counselor_id_fkey"
+            columns: ["counselor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_conversations_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_messages: {
+        Row: {
+          content: string | null
+          conversation_id: string
+          created_at: string | null
+          file_name: string | null
+          file_url: string | null
+          id: string
+          message_type: string | null
+          read_at: string | null
+          sender_id: string
+          status: string | null
+        }
+        Insert: {
+          content?: string | null
+          conversation_id: string
+          created_at?: string | null
+          file_name?: string | null
+          file_url?: string | null
+          id?: string
+          message_type?: string | null
+          read_at?: string | null
+          sender_id: string
+          status?: string | null
+        }
+        Update: {
+          content?: string | null
+          conversation_id?: string
+          created_at?: string | null
+          file_name?: string | null
+          file_url?: string | null
+          id?: string
+          message_type?: string | null
+          read_at?: string | null
+          sender_id?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "chat_messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string
+          first_name: string
+          id: string
+          is_active: boolean | null
+          last_login_at: string | null
+          last_name: string
+          phone: string | null
+          profile_image_url: string | null
+          role: Database["public"]["Enums"]["user_role"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          first_name: string
+          id: string
+          is_active?: boolean | null
+          last_login_at?: string | null
+          last_name: string
+          phone?: string | null
+          profile_image_url?: string | null
+          role?: Database["public"]["Enums"]["user_role"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          is_active?: boolean | null
+          last_login_at?: string | null
+          last_name?: string
+          phone?: string | null
+          profile_image_url?: string | null
+          role?: Database["public"]["Enums"]["user_role"] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      video_call_sessions: {
+        Row: {
+          appointment_id: string | null
+          call_duration: number | null
+          call_ended_at: string | null
+          call_started_at: string | null
+          created_at: string | null
+          id: string
+          participants: Json | null
+          recording_url: string | null
+          room_id: string
+        }
+        Insert: {
+          appointment_id?: string | null
+          call_duration?: number | null
+          call_ended_at?: string | null
+          call_started_at?: string | null
+          created_at?: string | null
+          id?: string
+          participants?: Json | null
+          recording_url?: string | null
+          room_id: string
+        }
+        Update: {
+          appointment_id?: string | null
+          call_duration?: number | null
+          call_ended_at?: string | null
+          call_started_at?: string | null
+          created_at?: string | null
+          id?: string
+          participants?: Json | null
+          recording_url?: string | null
+          room_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "video_call_sessions_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +286,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "student" | "counselor" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +413,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_role: ["student", "counselor", "admin"],
+    },
   },
 } as const
